@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autocomplete-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: autocomplete
+  template:
+    metadata:
+      labels:
+        app: autocomplete
+    spec:
+      containers:
+      - name: autocomplete
+        image: ghcr.io/cg011235/autocomplete:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: autocomplete-secret
+              key: SECRET_KEY
+      imagePullSecrets:
+      - name: github-registry-secret

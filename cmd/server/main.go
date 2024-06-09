@@ -21,7 +21,7 @@ func main() {
 
 	r := mux.NewRouter()
 
-	// Rate limit middleware
+	r.Use(middleware.LoggingMiddleware)
 	r.Use(middleware.RateLimitMiddleware)
 
 	// Login route does not require JWT middleware

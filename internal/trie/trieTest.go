@@ -18,7 +18,7 @@ func TestInsertAndSearch(t *testing.T) {
 
 	// Test inserting an empty string and searching for it
 	trie.Insert("")
-	results := trie.Search("")
+	results := trie.CollectWords(trie.Root, "")
 	if len(results) > 0 {
 		t.Fatal("Invalid results for empty prefix")
 	}
@@ -34,7 +34,7 @@ func TestInsertAndSearch(t *testing.T) {
 	trie.Insert("mam")
 
 	// Search valid prefix
-	results = trie.Search("mag")
+	results = trie.CollectWords(trie.Root, "mag")
 	expectedResults := []string{"magic", "magnet", "maggie", "maggot"}
 	for _, expected := range expectedResults {
 		if !contains(results, expected) {
@@ -48,13 +48,13 @@ func TestInsertAndSearch(t *testing.T) {
 	}
 
 	// Search invalid prefix
-	results = trie.Search("a")
+	results = trie.CollectWords(trie.Root, "a")
 	if len(results) > 0 {
 		t.Fatal("Results should be empty for un-inserted search")
 	}
 
 	// Search valid prefix with single character
-	results = trie.Search("ma")
+	results = trie.CollectWords(trie.Root, "ma")
 	expectedResults = []string{"magic", "magnet", "maggie", "maggot", "ma", "mama", "mam"}
 	for _, expected := range expectedResults {
 		if !contains(results, expected) {
